@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
  **/
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 //        //代表的就是一个窗口
 //        Frame f = new Frame();
 //        //设置可将
@@ -31,6 +31,10 @@ public class Main {
 
         TankFrame tf = new TankFrame();
 
+        while (true){
+            Thread.sleep(50);
+            tf.repaint();
+        }
 
     }
 
