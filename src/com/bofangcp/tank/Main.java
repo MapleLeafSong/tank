@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
  * @Author:GangleiSong
  * @Date:Create in 2021/7/14 21:52
  **/
-public class T {
+public class Main {
 
     public static void main(String[] args) {
 //        //代表的就是一个窗口
