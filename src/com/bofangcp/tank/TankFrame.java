@@ -16,6 +16,7 @@ public class TankFrame extends Frame {
     Dir dir = Dir.DOWN;
     final int SPEED = 10;
     Tank myTank = new Tank(200,200,dir);
+    Bullet b = new Bullet(300,300,Dir.DOWN);
     public TankFrame(){
 
         setSize(800,600);
@@ -37,6 +38,7 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
        myTank.paint(g);
+       b.paint(g);
     }
 
 
