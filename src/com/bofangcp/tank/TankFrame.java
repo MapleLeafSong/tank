@@ -5,6 +5,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @Author:GangleiSong
@@ -15,11 +18,13 @@ public class TankFrame extends Frame {
     int x = 200,y =200;
     Dir dir = Dir.DOWN;
     final int SPEED = 10;
-    Tank myTank = new Tank(200,200,dir);
-    Bullet b = new Bullet(300,300,Dir.DOWN);
+    Tank myTank = new Tank(200,200,dir,this);
+    List<Bullet> bullets = new ArrayList<Bullet>();
+    Bullet b = new Bullet(300,300,Dir.DOWN,this);
+    static final int GAME_WIDTH = 800,GAME_HEIGHT = 600;
     public TankFrame(){
 
-        setSize(800,600);
+        setSize(GAME_WIDTH,GAME_HEIGHT);
         setResizable(false);
         setTitle("坦克大战");
         setVisible(true);
@@ -32,13 +37,42 @@ public class TankFrame extends Frame {
             }
         });
 
+    }
 
+    /**
+     * 双缓冲解决闪烁的问题。
+     */
+    Image offs = null;
+    @Override
+    public void update(Graphics g) {
+        if(offs == null){
+            offs = this.createImage(GAME_WIDTH,GAME_HEIGHT);
+        }
+        Graphics go = offs.getGraphics();
+        Color c = go.getColor();
+        go.setColor(Color.white);
+        go.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+        go.setColor(c);
+        paint(go);
+        g.drawImage(offs,0,0,null);
     }
 
     @Override
     public void paint(Graphics g) {
+        g.drawString("子弹的数量："+bullets.size(),10,60);
        myTank.paint(g);
-       b.paint(g);
+//        ListIterator<Bullet> bulletListIterator = bullets.listIterator();
+
+//        while (bulletListIterator.hasNext()){
+//            bulletListIterator.next().paint(g);
+//        }
+        for (int i = 0;i<bullets.size();i++){
+           bullets.get(i).paint(g);
+       }
+//       for(Bullet b:bullets){
+//           b.paint(g);
+//       }
+
     }
 
 
@@ -86,6 +120,9 @@ public class TankFrame extends Frame {
                    break;
                case "s":
                    bd = false;
+                   break;
+               case "j":
+                   myTank.fire();
                    break;
                default:break;
            }
