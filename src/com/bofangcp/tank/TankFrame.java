@@ -18,7 +18,8 @@ public class TankFrame extends Frame {
     int x = 200,y =200;
     Dir dir = Dir.DOWN;
     final int SPEED = 10;
-    Tank myTank = new Tank(200,200,dir,this);
+    Tank myTank = new Tank(400,500,Dir.UP,this);
+    List<Tank> tanks = new ArrayList<>();
     List<Bullet> bullets = new ArrayList<Bullet>();
     Bullet b = new Bullet(300,300,Dir.DOWN,this);
     static final int GAME_WIDTH = 800,GAME_HEIGHT = 600;
@@ -60,15 +61,25 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         g.drawString("子弹的数量："+bullets.size(),10,60);
-       myTank.paint(g);
-//        ListIterator<Bullet> bulletListIterator = bullets.listIterator();
+        myTank.paint(g);
+        ListIterator<Bullet> bulletListIterator = bullets.listIterator();
 
-//        while (bulletListIterator.hasNext()){
-//            bulletListIterator.next().paint(g);
-//        }
-        for (int i = 0;i<bullets.size();i++){
-           bullets.get(i).paint(g);
+        while (bulletListIterator.hasNext()){
+           Bullet b =  bulletListIterator.next();
+            b.paint(g);
+             if(!b.isAlive()){
+                 bulletListIterator.remove();
+             }
+        }
+
+        for (int i = 0;i<tanks.size();i++){
+           tanks.get(i).paint(g);
        }
+
+//        for (int i = 0;i<bullets.size();i++){
+//           bullets.get(i).paint(g);
+//       }
+//迭代的时候不能进行删除操作。
 //       for(Bullet b:bullets){
 //           b.paint(g);
 //       }

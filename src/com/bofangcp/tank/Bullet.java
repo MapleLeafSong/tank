@@ -14,6 +14,8 @@ public class Bullet {
     private Dir dir;
     private boolean alive = true;
     private TankFrame tf;
+    public static final int B_WIDTH = ResourceMgr.bulletD.getWidth();
+    public static int B_HEIGHT = ResourceMgr.bulletD.getHeight();
     public Bullet(int x,int y,Dir dir,TankFrame tf){
         this.x = x;
         this.y = y;
@@ -27,7 +29,22 @@ public class Bullet {
 
         Color c = g.getColor();
         g.setColor(Color.red);
-        g.fillOval(x,y,WIDTH,HEIGHT);
+        switch (dir){
+            case LEFT:
+                g.drawImage(ResourceMgr.bulletL,x,y,null);
+                break;
+            case RIGHT:
+                g.drawImage(ResourceMgr.bulletR,x,y,null);
+                break;
+            case UP:
+                g.drawImage(ResourceMgr.bulletU,x,y,null);
+                break;
+            case DOWN:
+                g.drawImage(ResourceMgr.bulletD,x,y,null);
+                break;
+        }
+
+//        g.fillOval(x,y,WIDTH,HEIGHT);
         g.setColor(c);
         move();
 
@@ -56,5 +73,19 @@ public class Bullet {
 
     }
 
+    public Dir getDir() {
+        return dir;
+    }
 
+    public void setDir(Dir dir) {
+        this.dir = dir;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
 }

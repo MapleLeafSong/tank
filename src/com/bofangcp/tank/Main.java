@@ -31,6 +31,9 @@ public class Main {
 
         TankFrame tf = new TankFrame();
 
+        for(int i = 0;i<5;i++){
+            tf.tanks.add(new Tank((int)(Math.random()*700),(int)(Math.random()*500),Dir.DOWN,tf));
+        }
         while (true){
             Thread.sleep(50);
             tf.repaint();
