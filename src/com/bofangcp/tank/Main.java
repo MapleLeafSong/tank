@@ -32,9 +32,13 @@ public class Main {
         TankFrame tf = new TankFrame();
 
         for(int i = 0;i<5;i++){
-            tf.tanks.add(new Tank((int)(Math.random()*700),(int)(Math.random()*500),Dir.DOWN,tf));
+            tf.tanks.add(new Tank((int)(Math.random()*400),(int)(Math.random()*400),Dir.DOWN,tf,Group.BAD));
+
         }
         while (true){
+            if(tf.tanks.size()<6){
+                tf.tanks.add(new Tank((int)(Math.random()*400),(int)(Math.random()*400),Dir.DOWN,tf,Group.BAD));
+            }
             Thread.sleep(50);
             tf.repaint();
         }

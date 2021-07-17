@@ -18,10 +18,12 @@ public class TankFrame extends Frame {
     int x = 200,y =200;
     Dir dir = Dir.DOWN;
     final int SPEED = 10;
-    Tank myTank = new Tank(400,500,Dir.UP,this);
+    Tank myTank = new Tank(400,500,Dir.UP,this,Group.GOOD);
     List<Tank> tanks = new ArrayList<>();
     List<Bullet> bullets = new ArrayList<Bullet>();
-    Bullet b = new Bullet(300,300,Dir.DOWN,this);
+    Explode e = new Explode(100,100,this);
+    List<Explode> liste = new ArrayList<>();
+//    Bullet b = new Bullet(300,300,Dir.DOWN,this);
     static final int GAME_WIDTH = 800,GAME_HEIGHT = 600;
     public TankFrame(){
 
@@ -61,20 +63,34 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         g.drawString("子弹的数量："+bullets.size(),10,60);
+        g.drawString("敌人的数量："+tanks.size(),10,80);
         myTank.paint(g);
-        ListIterator<Bullet> bulletListIterator = bullets.listIterator();
+//        ListIterator<Bullet> bulletListIterator = bullets.listIterator();
+//
+//        while (bulletListIterator.hasNext()){
+//           Bullet b =  bulletListIterator.next();
+//            b.paint(g);
+//             if(!b.isAlive()){
+//                 bulletListIterator.remove();
+//             }
+//        }
 
-        while (bulletListIterator.hasNext()){
-           Bullet b =  bulletListIterator.next();
-            b.paint(g);
-             if(!b.isAlive()){
-                 bulletListIterator.remove();
-             }
-        }
-
+        for (int i = 0;i<bullets.size();i++){
+           bullets.get(i).paint(g);
+       }
         for (int i = 0;i<tanks.size();i++){
            tanks.get(i).paint(g);
        }
+
+        for(int i = 0 ;i<bullets.size();i++){
+            for(int j=0;j<tanks.size();j++){
+                bullets.get(i).collideWith(tanks.get(j));
+            }
+        }
+
+        for(int i=0;i<liste.size();i++){
+            liste.get(i).paint(g);
+        }
 
 //        for (int i = 0;i<bullets.size();i++){
 //           bullets.get(i).paint(g);
@@ -97,15 +113,14 @@ public class TankFrame extends Frame {
         @Override
         public void keyPressed(KeyEvent e) {
             String key = String.valueOf(e.getKeyChar());
-            if("a".equals(key) && x >= 0){
+            if("a".equals(key)){
                bl = true;
-
             }
             if("d".equals(key)){
 //                x +=10;
                 br = true;
             }
-            if("w".equals(key)&& y>=20){
+            if("w".equals(key)){
                 bu = true;
 //                y -=10;
             }
@@ -114,7 +129,7 @@ public class TankFrame extends Frame {
                 bd = true;
             }
             setMainTankDir();
-            repaint();
+            //repaint();
         }
 
         @Override

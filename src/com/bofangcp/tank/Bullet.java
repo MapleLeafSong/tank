@@ -14,13 +14,15 @@ public class Bullet {
     private Dir dir;
     private boolean alive = true;
     private TankFrame tf;
+    private Group group = Group.BAD;
     public static final int B_WIDTH = ResourceMgr.bulletD.getWidth();
     public static int B_HEIGHT = ResourceMgr.bulletD.getHeight();
-    public Bullet(int x,int y,Dir dir,TankFrame tf){
+    public Bullet(int x,int y,Dir dir,TankFrame tf,Group group){
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tf;
+        this.group = group;
     }
     public void paint(Graphics g){
         if(!alive){
@@ -87,5 +89,25 @@ public class Bullet {
 
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    public void collideWith(Tank tank) {
+        if(this.group == tank.getGroup()){
+            return;
+        }
+        Rectangle rect = new Rectangle(this.x,this.y,WIDTH,HEIGHT);
+        Rectangle tankRect = new Rectangle(tank.getX(),tank.getY(),Tank.TANK_WIDTH,Tank.TANK_HEIGHT);
+        if(rect.intersects(tankRect)){
+            tank.die();
+            this.die();
+            Explode e = new Explode(this.x,this.y,tf);
+            tf.liste.add(e);
+            new Audio2("audio\\explode.wav").start();
+        }
+
+    }
+
+    private void die() {
+        this.alive = false;
     }
 }
